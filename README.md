@@ -7,7 +7,7 @@ GitLab Premium（专业版）提供了[合并请求批准规则Approval Rules](h
 此外GitLab Premium（专业版）也提供了[代码所有者Code Owners](https://docs.gitlab.com/ee/user/project/codeowners/)功能，可以给不同的文件夹、文件类型设置负责人，当文件发生变化时，自动将对应的代码负责人拉入合并请求审批过程中，防止在协同开发过程中未经授权的变更带来的冲突和风险。
 
 这两项功能可以实现强制且受管控的Code Review过程，对于企业提高代码质量起到了重要作用。然而开启这两项功能后，默认情况下批准人Approval和负责人CodeOwners都无法收到对应合并请求的邮件通知，也无法在GitLab个人页面的合并请求任务中看到对应的信息：
-![](images/image1.pngimage.png)
+![](images/image1.png)
 
 这是因为在GitLab的理念中，批准人Approval和负责人CodeOwners都只是审核人Reviewers的候选人，在创建合并请求时，创建人应该根据本次合并请求涉及的内容在批准人Approval和负责人CodeOwners中选择部分人员作为本次合并请求的审核人Reviewers，而不是通知到所有人，这会给其他人带来困扰。这个理念也许有一定的道理，但也确实有不少用户提出相关诉求，希望默认将批准人Approval和负责人CodeOwners作为审核人Reviewers并邮件通知这些人。这个争论持续了4年之久，至今还没有解决，你依然可以在该[Issue](https://gitlab.com/gitlab-org/gitlab/-/issues/12855)中了解它的来龙去脉，或发表你的评论。
 
@@ -34,7 +34,8 @@ GitLab Premium（专业版）提供了[合并请求批准规则Approval Rules](h
 2. 启动服务`nohup /home/ubuntu/gitlab-approvals-to-reviewers &`
 3. 在GitLab项目或群组中，配置Webhook，设置`URL`为部署该程序的服务器IP/域名和端口，勾选`合并请求事件`，如果`URL`为`https`协议，则勾选`启用SSL验证`，否则取消勾选，创建完成后测试Webhook，选择`合并请求事件`，验证是否返回204：
    ![](images/image2.png)
-4. 在配置了Webhook的GitLab项目中，确保已创建批准人Approval和负责人CodeOwners，然后创建/编辑合并请求或给已存在的合并请求随机分配审核人，用于触发Webhook，随后该程序会自动将批准人Approval和负责人CodeOwners设置为审核人Reviewers，可刷新查看并验证
+4. 在配置了Webhook的GitLab项目中，确保已创建批准人Approval和负责人CodeOwners，然后创建/编辑合并请求或给已存在的合并请求随机分配审核人，用于触发Webhook，随后该程序会自动将批准人Approval和负责人CodeOwners设置为审核人Reviewers，可刷新查看并验证，他们都会收到相关的通知邮件，并在个人页面的合并请求中看到对应的任务：
+   ![](images/image3.png)
 
 #### 3.3 日志
 1. 日志默认存储在该程序目录下`logs`文件夹中，其中`info.log`是INFO级别的日志，`error.log`是ERROR级别的日志
